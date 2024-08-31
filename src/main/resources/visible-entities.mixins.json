@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "tobinio.visibleentities.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "EntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
