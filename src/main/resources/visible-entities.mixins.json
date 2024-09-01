@@ -3,7 +3,8 @@
   "package": "tobinio.visibleentities.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "EntityMixin"
+    "EntityMixin",
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

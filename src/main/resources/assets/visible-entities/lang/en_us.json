@@ -1,0 +1,6 @@
+{
+  "visible-entities.disabled": "[Visible Entities] Disabled",
+  "visible-entities.enabled": "[Visible Entities] Enabled",
+  "key.visible-entities.toggle": "Enabled/Disabled",
+  "category.visible-entities.visible-entities": "Visible Entities"
+}

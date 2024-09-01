@@ -17,6 +17,9 @@
   "entrypoints": {
     "client": [
       "tobinio.visibleentities.VisibleEntities"
+    ],
+    "modmenu": [
+      "tobinio.visibleentities.settings.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -26,9 +29,7 @@
     "fabricloader": ">=0.16.3",
     "minecraft": "~1.21",
     "java": ">=21",
-    "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "fabric-api": "*",
+    "yet_another_config_lib_v3": "*"
   }
 }
