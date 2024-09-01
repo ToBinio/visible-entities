@@ -3,15 +3,17 @@
   "id": "visible-entities",
   "version": "${version}",
   "name": "Visible Entities",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Show normally hidden entities",
   "authors": [
     "to_binio"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "repo": "https://github.com/toBinio/visible-entities",
+    "homepage": "https://github.com/toBinio/visible-entities",
+    "issues": "https://github.com/toBinio/visible-entities/issues",
+    "sources": "https://github.com/toBinio/visible-entities"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/visible-entities/icon.png",
   "environment": "client",
   "entrypoints": {
@@ -27,9 +29,13 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.3",
+
     "minecraft": "~1.21",
     "java": ">=21",
     "fabric-api": "*",
     "yet_another_config_lib_v3": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
   }
 }
