@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/template_item_frame",
+    "textures": {
+        "particle": "visible-entities:block/transparent_birch_planks",
+        "wood": "visible-entities:block/transparent_birch_planks",
+        "back": "visible-entities:block/transparent_glow_item_frame"
+    }
+}

@@ -25,6 +25,13 @@ public class ModMenuIntegration implements ModMenuApi {
                 .category(ConfigCategory.createBuilder()
                         .name(Text.literal("Visible Entities"))
                         .option(Option.<Boolean>createBuilder()
+                                .name(Text.literal("Show ItemFrames"))
+                                .binding(Config.SHOW_ITEM_FRAMES_DEFAULT,
+                                        () -> Config.HANDLER.instance().showItemFrames,
+                                        newVal -> Config.HANDLER.instance().showItemFrames = newVal)
+                                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true))
+                                .build())
+                        .option(Option.<Boolean>createBuilder()
                                 .name(Text.literal("Show Entities"))
                                 .binding(Config.SHOW_ENTITIES_DEFAULT,
                                         () -> Config.HANDLER.instance().showEntities,

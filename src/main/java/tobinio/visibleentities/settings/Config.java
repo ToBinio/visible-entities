@@ -21,6 +21,10 @@ public class Config {
                     .build())
             .build();
 
+    public static final boolean SHOW_ITEM_FRAMES_DEFAULT = true;
+    @SerialEntry
+    public boolean showItemFrames = SHOW_ITEM_FRAMES_DEFAULT;
+
     public static final boolean SHOW_ENTITIES_DEFAULT = true;
     @SerialEntry
     public boolean showEntities = SHOW_ENTITIES_DEFAULT;

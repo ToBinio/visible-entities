@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "map=false": {
+      "model": "visible-entities:block/transparent_item_frame"
+    },
+    "map=true": {
+      "model": "visible-entities:block/transparent_item_frame_map"
+    }
+  }
+}
