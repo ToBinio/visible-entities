@@ -6,6 +6,7 @@
 A Fabric mod that makes map making easier by showing you by:
 * showing mobs normally only visible in spectator
 * rendering the bounding box of interactions
+* render invisible itemFrames 
 
 The mod can easily be toggled via the <kbd>N</kbd> Key
 
