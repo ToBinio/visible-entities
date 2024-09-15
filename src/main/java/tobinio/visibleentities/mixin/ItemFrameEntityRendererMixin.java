@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,19 +26,6 @@ import tobinio.visibleentities.settings.Config;
  */
 @Mixin (ItemFrameEntityRenderer.class)
 public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
-    @Unique
-    private static final ModelIdentifier TRANSPARENT_NORMAL_FRAME = new ModelIdentifier(Identifier.of(VisibleEntities.MOD_ID,
-            "transparent_item_frame"), "map=false");
-    @Unique
-    private static final ModelIdentifier TRANSPARENT_MAP_FRAME = new ModelIdentifier(Identifier.of(VisibleEntities.MOD_ID,
-            "transparent_item_frame"), "map=true");
-    @Unique
-    private static final ModelIdentifier TRANSPARENT_GLOW_FRAME = new ModelIdentifier(Identifier.of(VisibleEntities.MOD_ID,
-            "transparent_glow_item_frame"), "map=false");
-    @Unique
-    private static final ModelIdentifier TRANSPARENT_MAP_GLOW_FRAME = new ModelIdentifier(Identifier.of(VisibleEntities.MOD_ID,
-            "transparent_glow_item_frame"), "map=true");
-
     @Shadow
     @Final
     private BlockRenderManager blockRenderManager;
@@ -66,6 +52,20 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
                             OverlayTexture.DEFAULT_UV);
             matrixStack.pop();
         }
+    }
+
+    @Unique
+    private static final ModelIdentifier TRANSPARENT_NORMAL_FRAME = of("transparent_item_frame", false);
+    @Unique
+    private static final ModelIdentifier TRANSPARENT_MAP_FRAME = of("transparent_item_frame", true);
+    @Unique
+    private static final ModelIdentifier TRANSPARENT_GLOW_FRAME = of("transparent_glow_item_frame", false);
+    @Unique
+    private static final ModelIdentifier TRANSPARENT_MAP_GLOW_FRAME = of("transparent_glow_item_frame", true);
+
+    @Unique
+    private static ModelIdentifier of(String id, boolean map) {
+        return new ModelIdentifier(VisibleEntities.id(id), "map=%s".formatted(map));
     }
 
     @Unique

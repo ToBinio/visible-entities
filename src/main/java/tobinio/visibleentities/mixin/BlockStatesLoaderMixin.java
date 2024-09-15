@@ -2,10 +2,8 @@ package tobinio.visibleentities.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.render.model.BlockStatesLoader;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,9 +36,9 @@ public class BlockStatesLoaderMixin {
 
         STATIC_DEFINITIONS.put(Identifier.ofVanilla("item_frame"), ITEM_FRAME_STATE_MANAGER);
         STATIC_DEFINITIONS.put(Identifier.ofVanilla("glow_item_frame"), ITEM_FRAME_STATE_MANAGER);
-        STATIC_DEFINITIONS.put(Identifier.of(VisibleEntities.MOD_ID, "transparent_item_frame"),
+        STATIC_DEFINITIONS.put(VisibleEntities.id("transparent_item_frame"),
                 ITEM_FRAME_STATE_MANAGER);
-        STATIC_DEFINITIONS.put(Identifier.of(VisibleEntities.MOD_ID, "transparent_glow_item_frame"),
+        STATIC_DEFINITIONS.put(VisibleEntities.id("transparent_glow_item_frame"),
                 ITEM_FRAME_STATE_MANAGER);
     }
 }
