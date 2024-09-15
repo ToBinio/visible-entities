@@ -54,6 +54,15 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
         }
     }
 
+    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;getMapId(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/component/type/MapIdComponent;"), method = "render(Lnet/minecraft/entity/decoration/ItemFrameEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    private void offSetMap(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
+            VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+
+        if (VisibleEntities.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
+            matrixStack.translate(0, 0, 0.4375F - 0.5F);
+        }
+    }
+
     @Unique
     private static final ModelIdentifier TRANSPARENT_NORMAL_FRAME = of("transparent_item_frame", false);
     @Unique
