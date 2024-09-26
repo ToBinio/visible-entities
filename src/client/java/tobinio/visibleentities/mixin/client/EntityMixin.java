@@ -1,12 +1,13 @@
-package tobinio.visibleentities.mixin;
+package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MarkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import tobinio.visibleentities.VisibleEntities;
+import tobinio.visibleentities.VisibleEntitiesClient;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -18,7 +19,7 @@ import tobinio.visibleentities.settings.Config;
 public class EntityMixin {
     @Inject (method = "isInvisibleTo", at = @At ("HEAD"), cancellable = true)
     private void overwriteVisibility(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
-        if (VisibleEntities.isActive && Config.HANDLER.instance().showEntities) {
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showEntities) {
             cir.setReturnValue(false);
             cir.cancel();
         }

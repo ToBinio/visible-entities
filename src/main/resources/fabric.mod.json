@@ -17,15 +17,22 @@
   "icon": "assets/visible-entities/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [
+    "main": [
       "tobinio.visibleentities.VisibleEntities"
+    ],
+    "client": [
+      "tobinio.visibleentities.VisibleEntitiesClient"
     ],
     "modmenu": [
       "tobinio.visibleentities.settings.ModMenuIntegration"
     ]
   },
   "mixins": [
-    "visible-entities.mixins.json"
+    "visible-entities.mixins.json",
+    {
+      "config": "visible-entities.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
     "fabricloader": ">=0.16.3",

@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.InteractionEntity;
 import net.minecraft.util.Identifier;
 import tobinio.visibleentities.VisibleEntities;
+import tobinio.visibleentities.VisibleEntitiesClient;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -29,7 +30,7 @@ public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity>
             VertexConsumerProvider vertexConsumers, int light) {
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 
-        if (VisibleEntities.isActive && Config.HANDLER.instance().showInteractions) {
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showInteractions) {
             var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.LINES);
             WorldRenderer.drawBox(
                     matrices,

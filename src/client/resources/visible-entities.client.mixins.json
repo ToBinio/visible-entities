@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "tobinio.visibleentities.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "BlockStatesLoaderMixin",
+    "EntityMixin",
+    "ItemFrameEntityRendererMixin",
+    "LivingEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,4 +1,4 @@
-package tobinio.visibleentities.mixin;
+package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tobinio.visibleentities.VisibleEntities;
+import tobinio.visibleentities.VisibleEntitiesClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +36,9 @@ public class BlockStatesLoaderMixin {
 
         STATIC_DEFINITIONS.put(Identifier.ofVanilla("item_frame"), ITEM_FRAME_STATE_MANAGER);
         STATIC_DEFINITIONS.put(Identifier.ofVanilla("glow_item_frame"), ITEM_FRAME_STATE_MANAGER);
-        STATIC_DEFINITIONS.put(VisibleEntities.id("transparent_item_frame"),
+        STATIC_DEFINITIONS.put(VisibleEntitiesClient.id("transparent_item_frame"),
                 ITEM_FRAME_STATE_MANAGER);
-        STATIC_DEFINITIONS.put(VisibleEntities.id("transparent_glow_item_frame"),
+        STATIC_DEFINITIONS.put(VisibleEntitiesClient.id("transparent_glow_item_frame"),
                 ITEM_FRAME_STATE_MANAGER);
     }
 }

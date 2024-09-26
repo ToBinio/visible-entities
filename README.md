@@ -3,10 +3,12 @@
 ![forge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/unsupported/forge_vector.svg)
 [![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/project/visible-entities)
 
-A Fabric mod that makes map making easier by showing you by:
-* showing mobs normally only visible in spectator
-* rendering the bounding box of interactions
-* render invisible itemFrames 
+A mostly clientside Fabric mod that makes map making easier by showing you:
+
+* mobs normally only visible in spectator
+* the bounding box of interactions
+* invisible itemFrames
+* markers (requires server side)
 
 The mod can easily be toggled via the <kbd>N</kbd> Key
 

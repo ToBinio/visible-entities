@@ -1,4 +1,4 @@
-package tobinio.visibleentities.mixin;
+package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.TexturedRenderLayers;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tobinio.visibleentities.VisibleEntities;
+import tobinio.visibleentities.VisibleEntitiesClient;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -33,7 +33,8 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;getHeldItemStack()Lnet/minecraft/item/ItemStack;"), method = "render(Lnet/minecraft/entity/decoration/ItemFrameEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
     private void renderTransparent(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
-        if (VisibleEntities.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
+
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
             ItemStack itemStack = itemFrameEntity.getHeldItemStack();
 
             BakedModelManager bakedModelManager = this.blockRenderManager.getModels().getModelManager();
@@ -58,7 +59,7 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     private void offSetMap(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntities.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
             matrixStack.translate(0, 0, 0.4375F - 0.5F);
         }
     }
@@ -74,11 +75,12 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
 
     @Unique
     private static ModelIdentifier of(String id, boolean map) {
-        return new ModelIdentifier(VisibleEntities.id(id), "map=%s".formatted(map));
+        return new ModelIdentifier(VisibleEntitiesClient.id(id), "map=%s".formatted(map));
     }
 
     @Unique
     private ModelIdentifier getTransparentModelId(T entity, ItemStack stack) {
+
         boolean bl = entity.getType() == EntityType.GLOW_ITEM_FRAME;
         if (stack.isOf(Items.FILLED_MAP)) {
             return bl ? TRANSPARENT_MAP_GLOW_FRAME : TRANSPARENT_MAP_FRAME;

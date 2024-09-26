@@ -33,6 +33,10 @@ public class Config {
     @SerialEntry
     public boolean showInteractions = SHOW_INTERACTIONS_DEFAULT;
 
+    public static final boolean SHOW_MARKER_DEFAULT = true;
+    @SerialEntry
+    public boolean showMarker = SHOW_MARKER_DEFAULT;
+
     public static final int TRANSPARENCY_DEFAULT = 38;
     @SerialEntry
     public int transparency = TRANSPARENCY_DEFAULT;

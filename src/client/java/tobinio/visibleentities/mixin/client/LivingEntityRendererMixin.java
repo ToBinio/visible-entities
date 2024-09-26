@@ -1,4 +1,4 @@
-package tobinio.visibleentities.mixin;
+package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

@@ -49,6 +49,13 @@ public class ModMenuIntegration implements ModMenuApi {
                                         newVal -> Config.HANDLER.instance().showInteractions = newVal)
                                 .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true))
                                 .build())
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Text.literal("Show Marker"))
+                                .binding(Config.SHOW_MARKER_DEFAULT,
+                                        () -> Config.HANDLER.instance().showMarker,
+                                        newVal -> Config.HANDLER.instance().showMarker = newVal)
+                                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true))
+                                .build())
                         .build())
                 .save(() -> {
                     Config.HANDLER.save();
