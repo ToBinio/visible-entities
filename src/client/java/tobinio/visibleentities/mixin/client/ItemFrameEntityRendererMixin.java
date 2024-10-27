@@ -5,6 +5,7 @@ import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.ItemFrameEntityRenderer;
+import net.minecraft.client.render.entity.state.ItemFrameEntityRenderState;
 import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.RotationAxis;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,20 +32,20 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     @Final
     private BlockRenderManager blockRenderManager;
 
-    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;getHeldItemStack()Lnet/minecraft/item/ItemStack;"), method = "render(Lnet/minecraft/entity/decoration/ItemFrameEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
-    private void renderTransparent(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
+    @Inject (at = @At (value = "INVOKE_ASSIGN", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    private void renderTransparent(ItemFrameEntityRenderState state, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
-            ItemStack itemStack = itemFrameEntity.getHeldItemStack();
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && state.invisible) {
+            ItemStack itemStack = state.contents;
 
             BakedModelManager bakedModelManager = this.blockRenderManager.getModels().getModelManager();
-            ModelIdentifier modelIdentifier = this.getTransparentModelId(itemFrameEntity, itemStack);
+            ModelIdentifier modelIdentifier = this.getTransparentModelId(state, itemStack);
             matrixStack.push();
             matrixStack.translate(-0.5F, -0.5F, -0.5F);
             this.blockRenderManager.getModelRenderer()
                     .render(matrixStack.peek(),
-                            vertexConsumerProvider.getBuffer(TexturedRenderLayers.getEntityTranslucentCull()),
+                            vertexConsumerProvider.getBuffer(TexturedRenderLayers.getItemEntityTranslucentCull()),
                             null,
                             bakedModelManager.getModel(modelIdentifier),
                             1.0F,
@@ -55,11 +57,11 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
         }
     }
 
-    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;getMapId(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/component/type/MapIdComponent;"), method = "render(Lnet/minecraft/entity/decoration/ItemFrameEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
-    private void offSetMap(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
+    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionf;)V", ordinal = 2), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    private void offSetMap(ItemFrameEntityRenderState state, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && itemFrameEntity.isInvisible()) {
+        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && state.invisible) {
             matrixStack.translate(0, 0, 0.4375F - 0.5F);
         }
     }
@@ -79,13 +81,11 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     }
 
     @Unique
-    private ModelIdentifier getTransparentModelId(T entity, ItemStack stack) {
-
-        boolean bl = entity.getType() == EntityType.GLOW_ITEM_FRAME;
+    private ModelIdentifier getTransparentModelId(ItemFrameEntityRenderState state, ItemStack stack) {
         if (stack.isOf(Items.FILLED_MAP)) {
-            return bl ? TRANSPARENT_MAP_GLOW_FRAME : TRANSPARENT_MAP_FRAME;
+            return state.glow ? TRANSPARENT_MAP_GLOW_FRAME : TRANSPARENT_MAP_FRAME;
         } else {
-            return bl ? TRANSPARENT_GLOW_FRAME : TRANSPARENT_NORMAL_FRAME;
+            return state.glow ? TRANSPARENT_GLOW_FRAME : TRANSPARENT_NORMAL_FRAME;
         }
     }
 }

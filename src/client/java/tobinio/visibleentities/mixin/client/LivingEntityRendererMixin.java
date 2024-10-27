@@ -17,11 +17,11 @@ import tobinio.visibleentities.settings.Config;
  */
 @Mixin (LivingEntityRenderer.class)
 public class LivingEntityRendererMixin {
-    @Redirect (method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At (value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
+    @Redirect (method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At (value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
     private void defineTransparency(EntityModel instance, MatrixStack matrixStack, VertexConsumer vertexConsumer,
             int light, int overlay, int color) {
         if (color != -1) {
-            color = ColorHelper.Argb.getArgb(Config.HANDLER.instance().transparency, 255, 255, 255);
+            color = ColorHelper.getArgb(Config.HANDLER.instance().transparency, 255, 255, 255);
         }
 
         instance.render(matrixStack, vertexConsumer, light, overlay, color);
