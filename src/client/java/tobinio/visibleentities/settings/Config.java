@@ -7,6 +7,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import tobinio.visibleentities.VisibleEntities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created: 01.09.24
  *
@@ -40,4 +43,15 @@ public class Config {
     public static final int TRANSPARENCY_DEFAULT = 38;
     @SerialEntry
     public int transparency = TRANSPARENCY_DEFAULT;
+
+    @SerialEntry
+    public List<String> entityKeys = new ArrayList<>();
+
+    @SerialEntry
+    public ListType listType = ListType.BLACKLIST;
+
+    public enum ListType {
+        BLACKLIST,
+        WHITELIST,
+    }
 }
