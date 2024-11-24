@@ -2,7 +2,6 @@ package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +15,7 @@ import tobinio.visibleentities.VisibleEntitiesClient;
  * @author Tobias Frischmann
  */
 @Mixin (EntityRenderer.class)
-public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
+public class EntityRendererMixin<T extends Entity> {
     @Inject (at = @At ("HEAD"), method = "shouldRender", cancellable = true)
     private void shouldRender(T entity, Frustum frustum, double x, double y, double z,
             CallbackInfoReturnable<Boolean> cir) {
