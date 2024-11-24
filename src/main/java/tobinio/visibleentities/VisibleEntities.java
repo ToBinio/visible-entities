@@ -10,5 +10,6 @@ public class VisibleEntities implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
     }
 }

@@ -26,4 +26,5 @@ public class MarkerEntityMixin {
             CallbackInfoReturnable<Packet<ClientPlayPacketListener>> cir) {
         cir.setReturnValue(new EntitySpawnS2CPacket((Entity) (Object) this, entityTrackerEntry));
     }
+
 }
