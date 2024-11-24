@@ -1,6 +1,9 @@
 {
-  "visible-entities.disabled": "[Visible Entities] Disabled",
-  "visible-entities.enabled": "[Visible Entities] Enabled",
-  "key.visible-entities.toggle": "Enabled/Disabled",
+  "visible-entities.active.disabled": "[Visible Entities] Disabled",
+  "visible-entities.active.enabled": "[Visible Entities] Enabled",
+  "key.visible-entities.active": "show invisible - Enabled/Disabled",
+  "visible-entities.visibility.disabled": "[Visible Entities] All Rending Disabled",
+  "visible-entities.visibility.enabled": "[Visible Entities] All Rending Enabled",
+  "key.visible-entities.visibility": "stop rending - Enabled/Disabled",
   "category.visible-entities.visible-entities": "Visible Entities"
 }

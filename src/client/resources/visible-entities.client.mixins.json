@@ -5,6 +5,7 @@
   "client": [
     "BlockStatesLoaderMixin",
     "EntityMixin",
+    "EntityRendererMixin",
     "ItemFrameEntityRendererMixin",
     "LivingEntityRendererMixin"
   ],
