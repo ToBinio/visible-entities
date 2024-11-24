@@ -12,8 +12,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tobinio.visibleentities.entity.InteractionEntityRenderer;
 import tobinio.visibleentities.entity.MarkerEntityRenderer;
 import tobinio.visibleentities.settings.Config;
@@ -21,13 +19,20 @@ import tobinio.visibleentities.settings.Config;
 import static tobinio.visibleentities.VisibleEntities.MOD_ID;
 
 public class VisibleEntitiesClient implements ClientModInitializer {
-    private static final KeyBinding TOGGLE_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.visible-entities.toggle",
+    private static final KeyBinding TOGGLE_ACTIVE_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.visible-entities.active",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_N,
             "category.visible-entities.visible-entities"));
 
+    private static final KeyBinding TOGGLE_VISIBILITY_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.visible-entities.visibility",
+            InputUtil.Type.KEYSYM,
+            GLFW.GLFW_KEY_UNKNOWN,
+            "category.visible-entities.visible-entities"));
+
     public static Boolean isActive = false;
+    public static Boolean showEntities = true;
 
     public static Identifier id(String path) {
         return Identifier.of(MOD_ID, path);
@@ -40,10 +45,16 @@ public class VisibleEntitiesClient implements ClientModInitializer {
         EntityRendererRegistry.register(EntityType.MARKER, MarkerEntityRenderer::new);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (TOGGLE_KEY.wasPressed()) {
-                client.player.sendMessage(Text.translatable(isActive ? "visible-entities.disabled" : "visible-entities.enabled")
+            while (TOGGLE_ACTIVE_KEY.wasPressed()) {
+                client.player.sendMessage(Text.translatable(isActive ? "visible-entities.active.disabled" : "visible-entities.active.enabled")
                         .formatted(Formatting.GRAY), true);
                 isActive = !isActive;
+            }
+
+            while (TOGGLE_VISIBILITY_KEY.wasPressed()) {
+                client.player.sendMessage(Text.translatable(showEntities ? "visible-entities.visibility.disabled" : "visible-entities.visibility.enabled")
+                        .formatted(Formatting.GRAY), true);
+                showEntities = !showEntities;
             }
         });
     }
