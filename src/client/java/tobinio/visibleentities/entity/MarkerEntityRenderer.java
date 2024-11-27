@@ -34,7 +34,9 @@ public class MarkerEntityRenderer extends EntityRenderer<MarkerEntity> {
 
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showMarker) {
+        Config instance = Config.HANDLER.instance();
+
+        if (instance.isActive && instance.showMarker) {
             Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
 
             var vertexConsumerLine = vertexConsumers.getBuffer(RenderLayer.LINES);

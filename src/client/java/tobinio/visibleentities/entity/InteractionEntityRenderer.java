@@ -30,7 +30,9 @@ public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity>
             VertexConsumerProvider vertexConsumers, int light) {
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showInteractions) {
+        Config instance = Config.HANDLER.instance();
+
+        if (instance.isActive && instance.showInteractions) {
             var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.LINES);
             WorldRenderer.drawBox(
                     matrices,

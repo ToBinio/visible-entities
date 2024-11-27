@@ -31,9 +31,6 @@ public class VisibleEntitiesClient implements ClientModInitializer {
             GLFW.GLFW_KEY_UNKNOWN,
             "category.visible-entities.visible-entities"));
 
-    public static Boolean isActive = false;
-    public static Boolean showEntities = true;
-
     public static Identifier id(String path) {
         return Identifier.of(MOD_ID, path);
     }
@@ -46,15 +43,23 @@ public class VisibleEntitiesClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (TOGGLE_ACTIVE_KEY.wasPressed()) {
+                boolean isActive = Config.HANDLER.instance().isActive;
+
                 client.player.sendMessage(Text.translatable(isActive ? "visible-entities.active.disabled" : "visible-entities.active.enabled")
                         .formatted(Formatting.GRAY), true);
-                isActive = !isActive;
+
+                Config.HANDLER.instance().isActive = !isActive;
+                Config.HANDLER.save();
             }
 
             while (TOGGLE_VISIBILITY_KEY.wasPressed()) {
-                client.player.sendMessage(Text.translatable(showEntities ? "visible-entities.visibility.disabled" : "visible-entities.visibility.enabled")
+                boolean renderEntities = Config.HANDLER.instance().renderEntities;
+
+                client.player.sendMessage(Text.translatable(renderEntities ? "visible-entities.visibility.disabled" : "visible-entities.visibility.enabled")
                         .formatted(Formatting.GRAY), true);
-                showEntities = !showEntities;
+
+                Config.HANDLER.instance().renderEntities = !renderEntities;
+                Config.HANDLER.save();
             }
         });
     }

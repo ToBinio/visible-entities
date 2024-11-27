@@ -24,21 +24,23 @@ public class Config {
                     .build())
             .build();
 
-    public static final boolean SHOW_ITEM_FRAMES_DEFAULT = true;
     @SerialEntry
-    public boolean showItemFrames = SHOW_ITEM_FRAMES_DEFAULT;
+    public boolean isActive = false;
 
-    public static final boolean SHOW_ENTITIES_DEFAULT = true;
     @SerialEntry
-    public boolean showEntities = SHOW_ENTITIES_DEFAULT;
+    public boolean renderEntities = true;
 
-    public static final boolean SHOW_INTERACTIONS_DEFAULT = true;
     @SerialEntry
-    public boolean showInteractions = SHOW_INTERACTIONS_DEFAULT;
+    public boolean showItemFrames = true;
 
-    public static final boolean SHOW_MARKER_DEFAULT = true;
     @SerialEntry
-    public boolean showMarker = SHOW_MARKER_DEFAULT;
+    public boolean showEntities = true;
+
+    @SerialEntry
+    public boolean showInteractions = true;
+
+    @SerialEntry
+    public boolean showMarker = true;
 
     public static final int TRANSPARENCY_DEFAULT = 38;
     @SerialEntry

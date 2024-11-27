@@ -30,11 +30,14 @@ public abstract class EntityMixin {
 
     @Inject (method = "isInvisibleTo", at = @At ("HEAD"), cancellable = true)
     private void overwriteVisibility(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
-        if (isInFilterList(player) == (Config.HANDLER.instance().listType == Config.ListType.BLACKLIST)) {
+
+        Config instance = Config.HANDLER.instance();
+
+        if (isInFilterList(player) == (instance.listType == Config.ListType.BLACKLIST)) {
             return;
         }
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showEntities) {
+        if (instance.isActive && instance.showEntities) {
             cir.setReturnValue(false);
             cir.cancel();
         }
