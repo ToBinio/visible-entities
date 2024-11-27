@@ -20,6 +20,24 @@ public class ModMenuIntegration implements ModMenuApi {
                 .title(Text.literal("Visible Entities"))
                 .category(ConfigCategory.createBuilder()
                         .name(Text.literal("General"))
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Text.literal("Active"))
+                                .description(OptionDescription.of(Text.literal(
+                                        "If the mod should be active")))
+                                .binding(false,
+                                        () -> Config.HANDLER.instance().isActive,
+                                        newVal -> Config.HANDLER.instance().isActive = newVal)
+                                .controller(TickBoxControllerBuilder::create)
+                                .build())
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Text.literal("Render Entities"))
+                                .description(OptionDescription.of(Text.literal(
+                                        "If Entities should be renderer at all")))
+                                .binding(true,
+                                        () -> Config.HANDLER.instance().renderEntities,
+                                        newVal -> Config.HANDLER.instance().renderEntities = newVal)
+                                .controller(TickBoxControllerBuilder::create)
+                                .build())
                         .option(Option.<Integer>createBuilder()
                                 .name(Text.literal("Entity Transparency"))
                                 .binding(Config.TRANSPARENCY_DEFAULT,
@@ -34,7 +52,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .name(Text.literal("Show Invisible"))
                                 .description(OptionDescription.of(Text.literal(
                                         "If invisible entities should be shown when the mod is active")))
-                                .binding(Config.SHOW_ENTITIES_DEFAULT,
+                                .binding(true,
                                         () -> Config.HANDLER.instance().showEntities,
                                         newVal -> Config.HANDLER.instance().showEntities = newVal)
                                 .controller(TickBoxControllerBuilder::create)
@@ -65,7 +83,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .name(Text.literal("Show ItemFrames"))
                                 .description(OptionDescription.of(Text.literal(
                                         "If invisible ItemFrames should be shown when the mod is active")))
-                                .binding(Config.SHOW_ITEM_FRAMES_DEFAULT,
+                                .binding(true,
                                         () -> Config.HANDLER.instance().showItemFrames,
                                         newVal -> Config.HANDLER.instance().showItemFrames = newVal)
                                 .controller(TickBoxControllerBuilder::create)
@@ -74,7 +92,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .name(Text.literal("Show Interactions"))
                                 .description(OptionDescription.of(Text.literal(
                                         "If Interactions should be shown when the mod is active")))
-                                .binding(Config.SHOW_INTERACTIONS_DEFAULT,
+                                .binding(true,
                                         () -> Config.HANDLER.instance().showInteractions,
                                         newVal -> Config.HANDLER.instance().showInteractions = newVal)
                                 .controller(TickBoxControllerBuilder::create)
@@ -83,7 +101,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .name(Text.literal("Show Marker"))
                                 .description(OptionDescription.of(Text.literal(
                                         "If Marker should be shown when the mod is active")))
-                                .binding(Config.SHOW_MARKER_DEFAULT,
+                                .binding(true,
                                         () -> Config.HANDLER.instance().showMarker,
                                         newVal -> Config.HANDLER.instance().showMarker = newVal)
                                 .controller(TickBoxControllerBuilder::create)

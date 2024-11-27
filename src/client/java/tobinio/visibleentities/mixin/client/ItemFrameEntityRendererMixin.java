@@ -36,7 +36,9 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     private void renderTransparent(ItemFrameEntityRenderState state, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && state.invisible) {
+        Config instance = Config.HANDLER.instance();
+
+        if (instance.isActive && instance.showItemFrames && state.invisible) {
             ItemStack itemStack = state.contents;
 
             BakedModelManager bakedModelManager = this.blockRenderManager.getModels().getModelManager();
@@ -61,7 +63,9 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     private void offSetMap(ItemFrameEntityRenderState state, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && state.invisible) {
+        Config instance = Config.HANDLER.instance();
+
+        if (instance.isActive && instance.showItemFrames && state.invisible) {
             matrixStack.translate(0, 0, 0.4375F - 0.5F);
         }
     }
