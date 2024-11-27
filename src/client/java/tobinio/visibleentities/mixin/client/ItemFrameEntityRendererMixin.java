@@ -61,7 +61,9 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     private void offSetMap(T itemFrameEntity, float f, float g, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
-        if (VisibleEntitiesClient.isActive && Config.HANDLER.instance().showItemFrames && state.invisible) {
+        Config instance = Config.HANDLER.instance();
+
+        if (instance.isActive && instance.showItemFrames && itemFrameEntity.isInvisible()) {
             matrixStack.translate(0, 0, 0.4375F - 0.5F);
         }
     }
