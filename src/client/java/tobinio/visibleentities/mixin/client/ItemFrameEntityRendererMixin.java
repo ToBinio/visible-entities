@@ -32,17 +32,15 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     @Final
     private BlockRenderManager blockRenderManager;
 
-    @Inject (at = @At (value = "INVOKE_ASSIGN", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionf;)V", ordinal = 1), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
     private void renderTransparent(ItemFrameEntityRenderState state, MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
 
         Config instance = Config.HANDLER.instance();
 
         if (instance.isActive && instance.showItemFrames && state.invisible) {
-            ItemStack itemStack = state.contents;
-
             BakedModelManager bakedModelManager = this.blockRenderManager.getModels().getModelManager();
-            ModelIdentifier modelIdentifier = this.getTransparentModelId(state, itemStack);
+            ModelIdentifier modelIdentifier = this.getTransparentModelId(state);
             matrixStack.push();
             matrixStack.translate(-0.5F, -0.5F, -0.5F);
             this.blockRenderManager.getModelRenderer()
@@ -85,8 +83,8 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     }
 
     @Unique
-    private ModelIdentifier getTransparentModelId(ItemFrameEntityRenderState state, ItemStack stack) {
-        if (stack.isOf(Items.FILLED_MAP)) {
+    private ModelIdentifier getTransparentModelId(ItemFrameEntityRenderState state) {
+        if (state.mapId != null) {
             return state.glow ? TRANSPARENT_MAP_GLOW_FRAME : TRANSPARENT_MAP_FRAME;
         } else {
             return state.glow ? TRANSPARENT_GLOW_FRAME : TRANSPARENT_NORMAL_FRAME;
