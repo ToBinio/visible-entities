@@ -3,7 +3,8 @@
   "package": "tobinio.visibleentities.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "BlockStatesLoaderMixin",
+    "BlockStateManagersInvoker",
+    "BlockStateManagersMixin",
     "EntityMixin",
     "EntityRendererMixin",
     "ItemFrameEntityRendererMixin",
