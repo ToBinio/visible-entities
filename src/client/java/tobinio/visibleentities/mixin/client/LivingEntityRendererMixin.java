@@ -21,7 +21,7 @@ public class LivingEntityRendererMixin {
     private void defineTransparency(EntityModel instance, MatrixStack matrixStack, VertexConsumer vertexConsumer,
             int light, int overlay, int color) {
         if (color != -1) {
-            color = ColorHelper.getArgb(Config.HANDLER.instance().transparency, 255, 255, 255);
+            color = ColorHelper.getArgb(Config.HANDLER.instance().transparency, ColorHelper.getRed(color), ColorHelper.getGreen(color), ColorHelper.getBlue(color));
         }
 
         instance.render(matrixStack, vertexConsumer, light, overlay, color);
