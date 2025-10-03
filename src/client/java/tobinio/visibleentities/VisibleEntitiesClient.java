@@ -19,17 +19,19 @@ import tobinio.visibleentities.settings.Config;
 import static tobinio.visibleentities.VisibleEntities.MOD_ID;
 
 public class VisibleEntitiesClient implements ClientModInitializer {
+    public static final KeyBinding.Category VISIBLE_ENTITIES = KeyBinding.Category.create(id("visible-entities"));
+
     private static final KeyBinding TOGGLE_ACTIVE_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.visible-entities.active",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_N,
-            "category.visible-entities.visible-entities"));
+            VISIBLE_ENTITIES));
 
     private static final KeyBinding TOGGLE_VISIBILITY_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.visible-entities.visibility",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_UNKNOWN,
-            "category.visible-entities.visible-entities"));
+            VISIBLE_ENTITIES));
 
     public static Identifier id(String path) {
         return Identifier.of(MOD_ID, path);

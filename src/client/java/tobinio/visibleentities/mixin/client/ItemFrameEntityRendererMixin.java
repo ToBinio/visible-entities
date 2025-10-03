@@ -1,26 +1,17 @@
 package tobinio.visibleentities.mixin.client;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.BlockModelRenderer;
 import net.minecraft.client.render.block.BlockRenderManager;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.ItemFrameEntityRenderer;
 import net.minecraft.client.render.entity.state.ItemFrameEntityRenderState;
-import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.client.render.model.BlockStateModel;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.math.RotationAxis;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,9 +32,9 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
     @Final
     private BlockRenderManager blockRenderManager;
 
-    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionfc;)V", ordinal = 1), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionfc;)V", ordinal = 1), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V")
     private void renderTransparent(ItemFrameEntityRenderState state, MatrixStack matrixStack,
-            VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+            OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci) {
 
         Config instance = Config.HANDLER.instance();
 
@@ -53,22 +44,22 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
 
             matrixStack.push();
             matrixStack.translate(-0.5F, -0.5F, -0.5F);
-            BlockModelRenderer
-                    .render(matrixStack.peek(),
-                            vertexConsumerProvider.getBuffer(TexturedRenderLayers.getItemEntityTranslucentCull()),
-                            model,
-                            1.0F,
-                            1.0F,
-                            1.0F,
-                            i,
-                            OverlayTexture.DEFAULT_UV);
+
+            orderedRenderCommandQueue.submitBlockStateModel(matrixStack,TexturedRenderLayers.getItemEntityTranslucentCull(), model,
+                    1.0F,
+                    1.0F,
+                    1.0F,
+                    state.light,
+                    OverlayTexture.DEFAULT_UV,
+                    state.outlineColor
+                    );
             matrixStack.pop();
         }
     }
 
-    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionfc;)V", ordinal = 2), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    @Inject (at = @At (value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionfc;)V", ordinal = 2), method = "render(Lnet/minecraft/client/render/entity/state/ItemFrameEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V")
     private void offSetMap(ItemFrameEntityRenderState state, MatrixStack matrixStack,
-            VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+            OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci) {
 
         Config instance = Config.HANDLER.instance();
 

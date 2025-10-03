@@ -1,16 +1,14 @@
 package tobinio.visibleentities.entity;
 
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.decoration.InteractionEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import tobinio.visibleentities.VisibleEntities;
-import tobinio.visibleentities.VisibleEntitiesClient;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -35,23 +33,24 @@ public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity,
     }
 
     @Override
-    public void render(InteractionEntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-            int light) {
-        super.render(state, matrices, vertexConsumers, light);
+    public void render(InteractionEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue,
+            CameraRenderState cameraState) {
+        super.render(state, matrices, queue, cameraState);
 
         Config instance = Config.HANDLER.instance();
 
         if (instance.isActive && instance.showInteractions) {
-            var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.LINES);
-            VertexRendering.drawBox(
-                    matrices,
-                    vertexConsumer,
-                    state.boundingBox.offset(-state.x, -state.y, -state.z),
-                    1.0F,
-                    1.0F,
-                    1.0F,
-                    1.0F
-            );
+            queue.submitCustom(matrices,RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
+                VertexRendering.drawBox(
+                        matricesEntry,
+                        vertexConsumer,
+                        state.boundingBox.offset(-state.x, -state.y, -state.z),
+                        1.0F,
+                        1.0F,
+                        1.0F,
+                        1.0F
+                );
+            });
         }
     }
 
