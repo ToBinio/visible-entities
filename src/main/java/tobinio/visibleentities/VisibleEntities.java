@@ -1,6 +1,7 @@
 package tobinio.visibleentities;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

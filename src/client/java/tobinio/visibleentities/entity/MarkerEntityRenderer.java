@@ -16,7 +16,9 @@ import tobinio.visibleentities.settings.Config;
  *
  * @author Tobias Frischmann
  */
-public class MarkerEntityRenderer extends EntityRenderer<MarkerEntity, MarkerEntityRenderer.MarkerEntityRenderState> {
+
+// not using custom EntityRenderState for mod compatibility
+public class MarkerEntityRenderer extends EntityRenderer<MarkerEntity, EntityRenderState> {
     public MarkerEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
     }
@@ -27,42 +29,47 @@ public class MarkerEntityRenderer extends EntityRenderer<MarkerEntity, MarkerEnt
     }
 
     @Override
-    public void updateRenderState(MarkerEntity entity, MarkerEntityRenderer.MarkerEntityRenderState state,
+    public void updateRenderState(MarkerEntity entity, EntityRenderState state,
             float tickDelta) {
         super.updateRenderState(entity, state, tickDelta);
-        state.boundingBox = entity.getBoundingBox();
+
+        if(state instanceof MarkerEntityRenderState markerEntityRenderState) {
+            markerEntityRenderState.boundingBox = entity.getBoundingBox();
+        }
     }
 
     @Override
-    public void render(MarkerEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue,
+    public void render(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue,
             CameraRenderState cameraState) {
         super.render(state, matrices, queue, cameraState);
 
         Config instance = Config.HANDLER.instance();
 
-        if (instance.isActive && instance.showMarker) {
-            Box box = state.boundingBox.offset(-state.x, -state.y, -state.z);
+        if(state instanceof MarkerEntityRenderState markerEntityRenderState) {
+            if (instance.isActive && instance.showMarker) {
+                Box box = markerEntityRenderState.boundingBox.offset(-state.x, -state.y - (state.height / 2), -state.z);
 
-            queue.submitCustom(matrices,RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
-                VertexRendering.drawBox(matricesEntry, vertexConsumer, box, 1.0F, 1.0F, 1.0F, 1.0F);
-            });
+                queue.submitCustom(matrices, RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
+                    VertexRendering.drawBox(matricesEntry, vertexConsumer, box, 1.0F, 1.0F, 1.0F, 1.0F);
+                });
 
-            queue.submitCustom(matrices,RenderLayer.getDebugFilledBox(), (matricesEntry, vertexConsumer) -> {
-                MatrixStack matrixStack = new MatrixStack();
-                matrixStack.peek().copy(matricesEntry);
-                VertexRendering.drawFilledBox(matrixStack,
-                        vertexConsumer,
-                        box.minX,
-                        box.minY,
-                        box.minZ,
-                        box.maxX,
-                        box.maxY,
-                        box.maxZ,
-                        0.8F,
-                        0.4F,
-                        1.0F,
-                        0.5F);
-            });
+                queue.submitCustom(matrices, RenderLayer.getDebugFilledBox(), (matricesEntry, vertexConsumer) -> {
+                    MatrixStack matrixStack = new MatrixStack();
+                    matrixStack.peek().copy(matricesEntry);
+                    VertexRendering.drawFilledBox(matrixStack,
+                            vertexConsumer,
+                            box.minX,
+                            box.minY,
+                            box.minZ,
+                            box.maxX,
+                            box.maxY,
+                            box.maxZ,
+                            0.8F,
+                            0.4F,
+                            1.0F,
+                            0.5F);
+                });
+            }
         }
     }
 

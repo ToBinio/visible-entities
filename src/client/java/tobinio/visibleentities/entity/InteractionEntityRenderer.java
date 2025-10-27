@@ -16,7 +16,9 @@ import tobinio.visibleentities.settings.Config;
  *
  * @author Tobias Frischmann
  */
-public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity, InteractionEntityRenderer.InteractionEntityRenderState> {
+
+// not using custom EntityRenderState for mod compatibility
+public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity, EntityRenderState> {
     public InteractionEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
     }
@@ -27,31 +29,38 @@ public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity,
     }
 
     @Override
-    public void updateRenderState(InteractionEntity entity, InteractionEntityRenderState state, float tickDelta) {
+    public void updateRenderState(InteractionEntity entity, EntityRenderState state, float tickDelta) {
         super.updateRenderState(entity, state, tickDelta);
-        state.boundingBox = entity.getBoundingBox();
+
+        if(state instanceof InteractionEntityRenderState interactionEntityRenderState) {
+            interactionEntityRenderState.boundingBox = entity.getBoundingBox();
+        }
     }
 
     @Override
-    public void render(InteractionEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue,
+    public void render(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue,
             CameraRenderState cameraState) {
         super.render(state, matrices, queue, cameraState);
 
-        Config instance = Config.HANDLER.instance();
+        if(state instanceof InteractionEntityRenderState interactionEntityRenderState) {
+            Config instance = Config.HANDLER.instance();
 
-        if (instance.isActive && instance.showInteractions) {
-            queue.submitCustom(matrices,RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
-                VertexRendering.drawBox(
-                        matricesEntry,
-                        vertexConsumer,
-                        state.boundingBox.offset(-state.x, -state.y, -state.z),
-                        1.0F,
-                        1.0F,
-                        1.0F,
-                        1.0F
-                );
-            });
+            if (instance.isActive && instance.showInteractions) {
+                queue.submitCustom(matrices,RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
+                    VertexRendering.drawBox(
+                            matricesEntry,
+                            vertexConsumer,
+                            interactionEntityRenderState.boundingBox.offset(-state.x, -state.y, -state.z),
+                            1.0F,
+                            1.0F,
+                            1.0F,
+                            1.0F
+                    );
+                });
+            }
         }
+
+
     }
 
     public static class InteractionEntityRenderState extends EntityRenderState {
