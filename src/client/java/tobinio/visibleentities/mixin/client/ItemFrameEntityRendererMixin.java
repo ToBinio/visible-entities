@@ -2,6 +2,7 @@ package tobinio.visibleentities.mixin.client;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
@@ -9,6 +10,7 @@ import net.minecraft.client.render.entity.ItemFrameEntityRenderer;
 import net.minecraft.client.render.entity.state.ItemFrameEntityRenderState;
 import net.minecraft.client.render.model.BlockStateModel;
 import net.minecraft.client.render.state.CameraRenderState;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.state.property.Properties;
@@ -45,7 +47,8 @@ public abstract class ItemFrameEntityRendererMixin<T extends ItemFrameEntity> {
             matrixStack.push();
             matrixStack.translate(-0.5F, -0.5F, -0.5F);
 
-            orderedRenderCommandQueue.submitBlockStateModel(matrixStack,TexturedRenderLayers.getItemEntityTranslucentCull(), model,
+            orderedRenderCommandQueue.submitBlockStateModel(matrixStack, RenderLayers.entityTranslucent(
+                            SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE), model,
                     1.0F,
                     1.0F,
                     1.0F,

@@ -9,6 +9,8 @@ import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.MarkerEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -47,28 +49,23 @@ public class MarkerEntityRenderer extends EntityRenderer<MarkerEntity, EntityRen
 
         if(state instanceof MarkerEntityRenderState markerEntityRenderState) {
             if (instance.isActive && instance.showMarker) {
-                Box box = markerEntityRenderState.boundingBox.offset(-state.x, -state.y - (state.height / 2), -state.z);
+                Box box = markerEntityRenderState.boundingBox.offset(0,  - (state.height / 2), 0);
 
-                queue.submitCustom(matrices, RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
-                    VertexRendering.drawBox(matricesEntry, vertexConsumer, box, 1.0F, 1.0F, 1.0F, 1.0F);
-                });
+                GizmoDrawing.box(box, DrawStyle.stroked(
+                        ColorHelper.fromFloats(
+                                1.0F,
+                                1.0F,
+                                1.0F,
+                                1.0F
+                        )));
 
-                queue.submitCustom(matrices, RenderLayer.getDebugFilledBox(), (matricesEntry, vertexConsumer) -> {
-                    MatrixStack matrixStack = new MatrixStack();
-                    matrixStack.peek().copy(matricesEntry);
-                    VertexRendering.drawFilledBox(matrixStack,
-                            vertexConsumer,
-                            box.minX,
-                            box.minY,
-                            box.minZ,
-                            box.maxX,
-                            box.maxY,
-                            box.maxZ,
-                            0.8F,
-                            0.4F,
-                            1.0F,
-                            0.5F);
-                });
+                GizmoDrawing.box(box, DrawStyle.filled(
+                        ColorHelper.fromFloats(
+                                0.4F,
+                                1.0F,
+                                0.5F,
+                                0.8F
+                        )));
             }
         }
     }

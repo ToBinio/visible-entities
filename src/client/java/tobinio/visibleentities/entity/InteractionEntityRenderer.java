@@ -9,6 +9,8 @@ import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.InteractionEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 import tobinio.visibleentities.settings.Config;
 
 /**
@@ -46,17 +48,12 @@ public class InteractionEntityRenderer extends EntityRenderer<InteractionEntity,
             Config instance = Config.HANDLER.instance();
 
             if (instance.isActive && instance.showInteractions) {
-                queue.submitCustom(matrices,RenderLayer.LINES, (matricesEntry, vertexConsumer) -> {
-                    VertexRendering.drawBox(
-                            matricesEntry,
-                            vertexConsumer,
-                            interactionEntityRenderState.boundingBox.offset(-state.x, -state.y, -state.z),
-                            1.0F,
-                            1.0F,
-                            1.0F,
-                            1.0F
-                    );
-                });
+                GizmoDrawing.box(interactionEntityRenderState.boundingBox, DrawStyle.stroked(ColorHelper.fromFloats(
+                        1.0F,
+                        1.0F,
+                        1.0F,
+                        1.0F
+                )));
             }
         }
 
